@@ -13,22 +13,27 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path
-from django.views.generic.base import TemplateView
-from restaurants.views import (
-               restaurant_listview,
-               RestaurantListView,
-               MexicanRestauratListView,
-               AsianFusionRestauratListView,
-)
+from django.views.generic import TemplateView
+# from restaurants.views import (
+#                restaurant_listview,
+#                RestaurantListView,
+#                MexicanRestauratListView,
+#                AsianFusionRestauratListView,
+#
+# )
+from restaurants.views import RestaurantListView,RestaurantDetailView
+
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name="home.html")),
-    path('restaurant/', RestaurantListView.as_view()),
-    path('restaurant/mexican/', MexicanRestauratListView.as_view()),
-    path('restaurant/asian/', AsianFusionRestauratListView.as_view()),
-    path('about/', TemplateView.as_view(template_name="about.html")),
-    path('contact/', TemplateView.as_view(template_name="contact.html")),
+    url(r'^admin/', admin.site.urls),
+    url(r'^$', TemplateView.as_view(template_name="home.html")),
+    url(r'^restaurant/$', RestaurantListView.as_view()),
+    #url(r'^restaurant/(?P<slug>[-\w]+)/$', RestaurantListView.as_view()),
+    #url(r'^restaurant/(?P<pk>\w+)/$', RestaurantDetailView.as_view()),
+    url(r'^restaurant/(?P<rest_id>\w+)/$', RestaurantDetailView.as_view()),  #for this create method in class  -- get_object
+    url(r'^about/$', TemplateView.as_view(template_name="about.html")),
+    url(r'^contact/$', TemplateView.as_view(template_name="contact.html")),
 ]
