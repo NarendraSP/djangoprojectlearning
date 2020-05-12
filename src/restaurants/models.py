@@ -19,16 +19,16 @@ class RestaurantLocation(models.Model):
         return self.name
 
 def rl_pre_save_receiver(sender,instance,*args,**kwargs):
-    print('saving..')
-    print(instance.timestamp)
+    # print('saving..')
+    # print(instance.timestamp)
     if not instance.slug:
-        instance.name = "Some other New Name"
+        #instance.name = instance.name+"temp"
         instance.slug = unique_slug_generator(instance)
         instance.save()
 
-def rl_post_save_receiver(sender,instance,*args,**kwargs):
-    print('saved')
-    print(instance.timestamp)
+# def rl_post_save_receiver(sender,instance,created,*args,**kwargs):
+#     print('saved')
+#     print(instance.timestamp)
 
 pre_save.connect(rl_pre_save_receiver,sender=RestaurantLocation)
-post_save.connect(rl_post_save_receiver,sender=RestaurantLocation)
+# post_save.connect(rl_post_save_receiver,sender=RestaurantLocation)
